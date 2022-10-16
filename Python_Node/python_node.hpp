@@ -31,12 +31,12 @@ class DLLEXPORT PythonNode final : public Component
 
   private:
     std::unique_ptr<internal::PythonNode> p;
-    std::mutex io_mutex_;
     std::shared_ptr<pyNodeDataWrapper> py_data_;
     std::string py_script_path_;
     bool show_script_file_dialog_;
     bool show_interpret_dialog_;
     bool file_exists_;
+    std::mutex io_mutex_;
     imgui_addons::ImGuiFileBrowser script_file_dialog_;
     imgui_addons::ImGuiFileBrowser iterpret_file_dialog_;
 };

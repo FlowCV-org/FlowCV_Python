@@ -11,9 +11,9 @@
 cv::Mat* pyNodeDataWrapper::get_image(int io_num)
 {
     if (io_num == 1)
-        return &img2_;
+        return &img2_in_;
 
-    return &img1_;
+    return &img1_in_;
 }
 
 void pyNodeDataWrapper::set_image(py::array_t<uint8_t>& img, int io_num)
@@ -22,9 +22,9 @@ void pyNodeDataWrapper::set_image(py::array_t<uint8_t>& img, int io_num)
                 const_cast<uint8_t*>(img.data()), img.strides(0));
 
     if (io_num == 0)
-        mat.copyTo(img1_);
+        mat.copyTo(img1_out_);
     else if (io_num == 1)
-        mat.copyTo(img2_);
+        mat.copyTo(img2_out_);
 }
 
 void pyNodeDataWrapper::set_json(const nl::json& j)

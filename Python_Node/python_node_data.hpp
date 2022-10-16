@@ -30,8 +30,10 @@ class pyNodeDataWrapper {
     void set_float(float val);
     std::string get_string();
     void set_string(std::string str);
-    cv::Mat img1_;
-    cv::Mat img2_;
+    cv::Mat img1_in_;
+    cv::Mat img1_out_;
+    cv::Mat img2_in_;
+    cv::Mat img2_out_;
     bool bool_val_{};
     int int_val_{};
     float float_val_{};

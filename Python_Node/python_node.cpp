@@ -76,7 +76,7 @@ class PythonNode
 }  // namespace DSPatch
 
 PythonNode::PythonNode()
-    : Component( ProcessOrder::OutOfOrder )
+    : Component( ProcessOrder::InOrder )
     , p( new internal::PythonNode() )
 {
     // Name and Category
@@ -99,7 +99,6 @@ PythonNode::PythonNode()
     py_data_ = std::make_shared<pyNodeDataWrapper>();
     py_data_->node_name_ = GetInstanceName();
     node_data[py_data_->node_name_] = py_data_;
-
     SetEnabled(true);
 }
 
@@ -120,12 +119,24 @@ void PythonNode::Process_( SignalBus const& inputs, SignalBus& outputs )
         auto in_float = inputs.GetValue<float>(4);
         auto in_str = inputs.GetValue<std::string>(5);
         auto in_json = inputs.GetValue<nl::json>(6);
-        if (in1)
+        if (in1) {
             if (!in1->empty())
-                in1->copyTo(py_data_->img1_);
-        if (in2)
+                in1->copyTo(py_data_->img1_in_);
+            else
+                py_data_->img1_in_ = cv::Mat();
+        }
+        else
+            py_data_->img1_in_ = cv::Mat();
+
+        if (in2) {
             if (!in2->empty())
-                in2->copyTo(py_data_->img2_);
+                in2->copyTo(py_data_->img2_in_);
+            else
+                py_data_->img2_in_ = cv::Mat();
+        }
+        else
+            py_data_->img2_in_ = cv::Mat();
+
         if (in_json)
             py_data_->json_data_ = *in_json;
         if (in_bool)
@@ -137,7 +148,7 @@ void PythonNode::Process_( SignalBus const& inputs, SignalBus& outputs )
         if (in_str)
             py_data_->str_val_ = *in_str;
 
-        if (!py_script_path_.empty() && file_exists_) {
+        if (!py_script_path_.empty() && file_exists_ && IsEnabled()) {
             if (py_bind_.is_init_) {
                 try {
                     py::gil_scoped_acquire gil{};
@@ -149,10 +160,11 @@ void PythonNode::Process_( SignalBus const& inputs, SignalBus& outputs )
                 }
             }
         }
-        if (!py_data_->img1_.empty())
-            outputs.SetValue(0, py_data_->img1_);
-        if (!py_data_->img2_.empty())
-            outputs.SetValue(1, py_data_->img2_);
+        if (!py_data_->img1_out_.empty())
+            outputs.SetValue(0, py_data_->img1_out_);
+
+        if (!py_data_->img2_out_.empty())
+            outputs.SetValue(1, py_data_->img2_out_);
         outputs.SetValue(2, py_data_->bool_val_);
         outputs.SetValue(3, py_data_->int_val_);
         outputs.SetValue(4, py_data_->float_val_);
