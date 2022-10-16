@@ -83,7 +83,7 @@ PythonNode::PythonNode()
     SetComponentName_("Python_Script");
     SetComponentCategory_(Category::Category_Experimental);
     SetComponentAuthor_("Richard");
-    SetComponentVersion_("0.1.0");
+    SetComponentVersion_("0.1.1");
     SetInstanceCount(global_inst_counter);
     global_inst_counter++;
 
