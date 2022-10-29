@@ -4,7 +4,6 @@ project(Python_Node)
 include(../CMake/pybind11Config.cmake)
 add_subdirectory(${CMAKE_BINARY_DIR}/_deps/pybind11-src ${CMAKE_BINARY_DIR}/_deps/pybind11-build)
 include_directories(${CMAKE_BINARY_DIR}/_deps/pybind11_json-src/include)
-include_directories(${CMAKE_BINARY_DIR}/_deps/nlohmann_json-src/include)
 
 # Add IMGUI File Dialog
 set(IMGUI_FILE_DIALOG_DIR ${FLOWCV_PROJ_DIR}/third-party/FileBrowser)

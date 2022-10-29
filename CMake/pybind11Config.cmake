@@ -15,18 +15,6 @@ if (NOT pybind11_POPULATED)
     set(PYBIND11_PYTHON_VERSION 3.6.5 CACHE STRING "")
 endif()
 
-# Fetch nlohmann JSON
-FetchContent_Declare(
-        nlohmann_json
-        GIT_REPOSITORY https://github.com/nlohmann/json
-        GIT_TAG v3.7.3
-)
-FetchContent_GetProperties(nlohmann_json)
-if (NOT nlohmann_json_POPULATED)
-    message(STATUS "Fetching nlohmann JSON repo")
-    FetchContent_Populate(nlohmann_json)
-endif()
-
 # Fetch pybind11 JSON
 FetchContent_Declare(
         pybind11_json
